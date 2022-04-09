@@ -25,13 +25,12 @@ private slots:
     void on_toolButton_2_clicked();
     void on_pushButton_2_clicked();
 
-
-
 public slots:
     void errorExistDirect();
     void appendPath(const QString pathName);
     void fileHashing();
     void appendFileHash(QString text, QString path);
+    void createTreeDisplay();
 
 
 signals:
@@ -46,6 +45,8 @@ private:
     unsigned int amountOfFiles;
     QStack<QString> files;
     QMap<QString, QVector<QString>> hashedFiles;
+
+
 
 };
 #endif // WIDGET_H

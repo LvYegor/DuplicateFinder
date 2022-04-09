@@ -15,6 +15,7 @@ void MD5HashFile::start_MD5_hashing(QStack<QString> files)
         QString path = files.pop();
         emit appendFileHash(this->md5_file(path), path);
     }
+
 }
 
 QString MD5HashFile::md5_file(QString filename)

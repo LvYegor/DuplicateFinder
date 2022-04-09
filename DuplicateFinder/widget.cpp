@@ -29,7 +29,10 @@ Widget::Widget(QWidget *parent)
     connect(direct, &Directory::finished, this, &Widget::fileHashing);
     connect(this, &Widget::start_MD5_hashing, md5Hash, &MD5HashFile::start_MD5_hashing);
     connect(md5Hash, &MD5HashFile::appendFileHash, this, &Widget::appendFileHash);
-    connect(this, &Widget::destroyed, md5Thread, &QThread::quit);
+    connect(md5Thread, &QThread::finished, this, &Widget::createTreeDisplay);
+
+
+
 
 
 }
@@ -80,6 +83,7 @@ void Widget::appendPath(const QString pathName)
 void Widget::fileHashing()
 {
     emit start_MD5_hashing(files);
+    md5Thread->quit();
 }
 
 void Widget::appendFileHash(QString hash, QString path)
@@ -98,6 +102,34 @@ void Widget::appendFileHash(QString hash, QString path)
 
     ui->label_4->setText(hash);
 }
+
+void Widget::createTreeDisplay()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+    ui->treeWidget->setColumnCount(1);
+
+    for(auto pathVector : hashedFiles)
+    {
+        if(pathVector.size() > 1)
+        {
+            QTreeWidgetItem *root = new QTreeWidgetItem(ui->treeWidget);
+            root->setBackground(0, Qt::gray);
+            root->setText(0, pathVector[0]);
+//            root->setCheckState(0, Qt::Unchecked);
+            root->setExpanded(true);
+            ui->treeWidget->addTopLevelItem(root);
+
+            for(auto path : pathVector)
+            {
+                QTreeWidgetItem *child = new QTreeWidgetItem();
+                child->setText(0, path);
+                child->setCheckState(0, Qt::Checked);
+                root->addChild(child);
+            }
+        }
+    }
+}
+
 
 
 
