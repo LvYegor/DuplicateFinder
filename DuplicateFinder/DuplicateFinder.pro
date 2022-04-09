@@ -9,10 +9,16 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    directory.cpp \
     main.cpp \
+    md5.cpp \
+    md5hashfile.cpp \
     widget.cpp
 
 HEADERS += \
+    directory.h \
+    md5.h \
+    md5HashFile.h \
     widget.h
 
 FORMS += \
