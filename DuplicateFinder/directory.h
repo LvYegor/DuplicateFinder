@@ -18,7 +18,7 @@ public:
     explicit Directory(QThread *parent = nullptr);
     ~Directory();
 
-    void setDirectroty(char* _directory);
+    void setDirectrory(char* _directory);
 
 
 public slots:

@@ -9,7 +9,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-
+    setWindowIcon(QIcon("/home/lavash/SPOVM/CourseProject/logo.png"));
     direct = new Directory();
     md5Hash = new MD5HashFile();
     md5Thread = new QThread();
@@ -60,7 +60,7 @@ void Widget::on_pushButton_2_clicked()
         return;
     }
 
-    direct->setDirectroty(ui->lineEdit_8->text().toUtf8().data());
+    direct->setDirectrory(ui->lineEdit_8->text().toUtf8().data());
 
     ui->stackedWidget->setCurrentIndex(1);
     direct->start();
@@ -86,7 +86,7 @@ void Widget::fileHashing()
     md5Thread->quit();
 }
 
-void Widget::appendFileHash(QString hash, QString path)
+void Widget::appendFileHash(const QString hash, const QString path)
 {
     if(!this->hashedFiles.contains(hash))
     {

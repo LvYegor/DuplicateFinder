@@ -26,7 +26,7 @@ Directory::~Directory()
 
 }
 
-void Directory::setDirectroty(char *_directory)
+void Directory::setDirectrory(char *_directory)
 {
     strncpy(this->introducedDir, _directory, PATH_MAX);
 }

@@ -29,7 +29,7 @@ public slots:
     void errorExistDirect();
     void appendPath(const QString pathName);
     void fileHashing();
-    void appendFileHash(QString text, QString path);
+    void appendFileHash(const QString text, const QString path);
     void createTreeDisplay();
 
 

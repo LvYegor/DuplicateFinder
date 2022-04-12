@@ -10,15 +10,14 @@ class MD5HashFile : public QObject
     Q_OBJECT
 public:
     explicit MD5HashFile(QObject *parent = nullptr);
+    QString md5_file(QString filename);
 
 signals:
-    void appendFileHash(QString text, QString path);
+    void appendFileHash(QString hash, QString path);
 
 public slots:
     void start_MD5_hashing(QStack<QString> files);
 
-public:
-    QString md5_file(QString filename);
 };
 
 
