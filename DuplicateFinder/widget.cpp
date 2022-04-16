@@ -1,6 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 
+#include <QDebug>
 #include <QMessageBox>
 #include <unistd.h>
 
@@ -128,9 +129,31 @@ void Widget::createTreeDisplay()
             }
         }
     }
+    if(ui->treeWidget->topLevelItemCount() == 0)
+    {
+        QMessageBox::information(this, "", "There are no duplicates.");
+    }
 }
 
 
+void Widget::on_pushButton_clicked()
+{
+    for (int i = 0; i < ui->treeWidget->topLevelItemCount(); i++)
+    {
+        for (int j = 0; j < ui->treeWidget->topLevelItem(i)->childCount(); j++)
+        {
+            QTreeWidgetItem* item = ui->treeWidget->topLevelItem(i)->child(j);
+            if (item->checkState(0) == Qt::Checked)
+                QFile::remove(item->text(0));
+        }
+    }
+    QMessageBox::information(this, "Complete", "Duplicates has been deleted.");
+    ui->stackedWidget->setCurrentIndex(0);
+}
 
 
+void Widget::on_pushButton_3_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
 

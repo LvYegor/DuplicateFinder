@@ -25,6 +25,12 @@ private slots:
     void on_toolButton_2_clicked();
     void on_pushButton_2_clicked();
 
+//    void on_pushButton_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_3_clicked();
+
 public slots:
     void errorExistDirect();
     void appendPath(const QString pathName);
