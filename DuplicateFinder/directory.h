@@ -6,6 +6,7 @@
 #include <QStack>
 #include <QThread>
 
+
 class Directory : public QThread
 {
     Q_OBJECT

@@ -4,13 +4,14 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <unistd.h>
+#include <QProcess>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    setWindowIcon(QIcon("/home/lavash/SPOVM/CourseProject/logo.png"));
+    setWindowIcon(QIcon("logo.png"));
     direct = new Directory();
     md5Hash = new MD5HashFile();
     md5Thread = new QThread();
@@ -21,8 +22,9 @@ Widget::Widget(QWidget *parent)
 
     direct->moveToThread(direct);
     md5Hash->moveToThread(md5Thread);
-
     md5Thread->start();
+
+    ui->directory_lineEdit->setReadOnly(true);
 
     connect(this, &Widget::directoryScan, direct, &Directory::directoryScan);
     connect(direct, &Directory::errorExistDirect, this, &Widget::errorExistDirect);
@@ -31,11 +33,6 @@ Widget::Widget(QWidget *parent)
     connect(this, &Widget::start_MD5_hashing, md5Hash, &MD5HashFile::start_MD5_hashing);
     connect(md5Hash, &MD5HashFile::appendFileHash, this, &Widget::appendFileHash);
     connect(md5Thread, &QThread::finished, this, &Widget::createTreeDisplay);
-
-
-
-
-
 }
 
 Widget::~Widget()
@@ -47,21 +44,21 @@ Widget::~Widget()
 }
 
 
-void Widget::on_toolButton_2_clicked()
+void Widget::on_browseButton_clicked()
 {
-    ui->lineEdit_8->setText(QFileDialog::getExistingDirectory());
+    ui->directory_lineEdit->setText(QFileDialog::getExistingDirectory());
 }
 
 
-void Widget::on_pushButton_2_clicked()
+void Widget::on_startScanButton_clicked()
 {
-    if(ui->lineEdit_8->text().isEmpty())
+    if(ui->directory_lineEdit->text().isEmpty())
     {
         QMessageBox::warning(this, "Error", "Empty text line");
         return;
     }
 
-    direct->setDirectrory(ui->lineEdit_8->text().toUtf8().data());
+    direct->setDirectrory(ui->directory_lineEdit->text().toUtf8().data());
 
     ui->stackedWidget->setCurrentIndex(1);
     direct->start();
@@ -116,7 +113,6 @@ void Widget::createTreeDisplay()
             QTreeWidgetItem *root = new QTreeWidgetItem(ui->treeWidget);
             root->setBackground(0, Qt::gray);
             root->setText(0, pathVector[0]);
-//            root->setCheckState(0, Qt::Unchecked);
             root->setExpanded(true);
             ui->treeWidget->addTopLevelItem(root);
 
@@ -132,11 +128,13 @@ void Widget::createTreeDisplay()
     if(ui->treeWidget->topLevelItemCount() == 0)
     {
         QMessageBox::information(this, "", "There are no duplicates.");
+        QProcess::startDetached(QApplication::applicationFilePath(), QStringList(), QApplication::applicationDirPath());
+        qApp->quit();
     }
 }
 
 
-void Widget::on_pushButton_clicked()
+void Widget::on_deleteButton_clicked()
 {
     for (int i = 0; i < ui->treeWidget->topLevelItemCount(); i++)
     {
@@ -148,12 +146,15 @@ void Widget::on_pushButton_clicked()
         }
     }
     QMessageBox::information(this, "Complete", "Duplicates has been deleted.");
-    ui->stackedWidget->setCurrentIndex(0);
+    QProcess::startDetached(QApplication::applicationFilePath(), QStringList(), QApplication::applicationDirPath());
+    qApp->quit();
 }
 
 
-void Widget::on_pushButton_3_clicked()
+void Widget::on_cancelButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(0);
+    QProcess::startDetached(QApplication::applicationFilePath(), QStringList(), QApplication::applicationDirPath());
+    qApp->quit();
+
 }
 

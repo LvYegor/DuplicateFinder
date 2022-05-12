@@ -57,26 +57,10 @@ void Directory::directoryScan(const char *introducedDir, char *option, int fl)
                 directoryScan(pathName, option, fl);
             }
             else if(S_ISREG(entryInfo.st_mode)) {
-                if(strstr(option, "f") != NULL || fl == 1) {
-                    //                        this->files.push(pathName);
-
+                if(strstr(option, "f") != NULL || fl == 1) {                   
                     emit appendPath(pathName);
                 }
             }
-            else if(S_ISLNK(entryInfo.st_mode)) {
-                char targetName[PATH_MAX + 1];
-                if(readlink(pathName, targetName, PATH_MAX) != -1) {
-                    if(strstr(option, "l") != NULL || fl == 1) {
-                    }
-                }
-                else {
-                    if(strstr(option, "l") != NULL || fl == 1) {
-                    }
-                }
-            }
-        }
-        else {
-            //                printf("Error statting %s: %s\n", pathName, strerror(errno));
         }
         entry = readdir(dir);
     }
@@ -87,5 +71,4 @@ void Directory::directoryScan(const char *introducedDir, char *option, int fl)
 void Directory::run()
 {
     directoryScan(introducedDir, option, 1);
-
 }

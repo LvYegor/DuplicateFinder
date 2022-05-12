@@ -22,14 +22,12 @@ public:
     ~Widget();
 
 private slots:
-    void on_toolButton_2_clicked();
-    void on_pushButton_2_clicked();
+    void on_browseButton_clicked();
+    void on_startScanButton_clicked();
 
-//    void on_pushButton_clicked();
+    void on_deleteButton_clicked();
 
-    void on_pushButton_clicked();
-
-    void on_pushButton_3_clicked();
+    void on_cancelButton_clicked();
 
 public slots:
     void errorExistDirect();
@@ -42,6 +40,7 @@ public slots:
 signals:
     void directoryScan(const char *introducedDir, char *option, int fl);
     void start_MD5_hashing(QStack<QString> files);
+    void end_MD5_hashing();
 
 private:
     Ui::Widget *ui;
@@ -51,8 +50,5 @@ private:
     unsigned int amountOfFiles;
     QStack<QString> files;
     QMap<QString, QVector<QString>> hashedFiles;
-
-
-
 };
 #endif // WIDGET_H
